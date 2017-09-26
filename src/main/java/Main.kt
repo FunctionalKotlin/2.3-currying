@@ -1,14 +1,33 @@
 // Copyright © FunctionalKotlin.com 2017. All rights reserved.
 
-fun connect(host: String): (Int) -> Unit = { port ->
-    println("Connecting to $host:$port")
+class Connector(val host: String?, val port: Int?) {
+    fun connect() {
+        println("Connecting to $host:$port")
+    }
+}
+
+class ConnectorBuilder {
+    var connector = Connector(null, null)
+
+    fun setHost(host: String): ConnectorBuilder {
+        connector = Connector(host, connector.port)
+
+        return this
+    }
+
+    fun setPort(port: Int): ConnectorBuilder {
+        connector = Connector(connector.host, port)
+
+        return this
+    }
+
+    fun build(): Connector = connector
 }
 
 fun main(args: Array<String>) {
-    connect("localhost")(80)
-
-    val localConnector = connect("localhost")
-
-    localConnector(80)
-    localConnector(8888)
+    ConnectorBuilder()
+        .setHost("localhost")
+        .setPort(80)
+        .build()
+        .connect()
 }
