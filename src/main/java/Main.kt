@@ -1,17 +1,17 @@
 // Copyright © FunctionalKotlin.com 2017. All rights reserved.
 
-fun consoleLogger(type: String, msg: String) {
+fun consoleLogger(type: String): (String) -> Unit = { msg ->
     println("[$type]    $msg")
 }
 
-fun operation(a: Int, b: Int, logger: (String, String) -> Unit) {
+fun operation(a: Int, b: Int, logger: (String) -> Unit) {
     if (a <= 0) {
-        logger("ERROR", "a must be positive")
+        logger("a must be positive")
         return
     }
 
     if (b <= 0) {
-        logger("ERROR", "b must be positive")
+        logger("b must be positive")
         return
     }
 
@@ -19,5 +19,5 @@ fun operation(a: Int, b: Int, logger: (String, String) -> Unit) {
 }
 
 fun main(args: Array<String>) {
-    operation(1, 2, ::consoleLogger)
+    operation(1, 2, consoleLogger("ERROR"))
 }
